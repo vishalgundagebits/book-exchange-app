@@ -58,6 +58,13 @@ const AddBook = () => {
           register={register}
         />
 
+        <InputField
+          label="Author"
+          name="author"
+          placeholder="Author Name"
+          register={register}
+        />
+
         {/* Reusable Textarea for Description */}
         <InputField
           label="Description"

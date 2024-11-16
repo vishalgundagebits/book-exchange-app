@@ -34,6 +34,9 @@ const BookCard = ({book}) => {
                        {book?.title}
                         </h3>
                     </Link>
+                    <p className="font-medium mb-5">
+                        {book?.author} 
+                    </p>
                     <p className="text-gray-600 mb-5">{book?.description.length > 80 ? `${book.description.slice(0, 80)}...` : book?.description}</p>
                     <p className="font-medium mb-5">
                         ${book?.newPrice} <span className="line-through font-normal ml-2">$ {book?.oldPrice}</span>
