@@ -1,6 +1,6 @@
 const express = require('express');
 const Book = require('./book.model');
-const { postABook, getAllBooks, getSingleBook, UpdateBook, deleteABook } = require('./book.controller');
+const { postABook, getAllBooks, getSingleBook, UpdateBook, deleteABook,findBookbyTitle,findBookbyCategory,searchBook } = require('./book.controller');
 const verifyAdminToken = require('../middleware/verifyAdminToken');
 const router =  express.Router();
 
@@ -18,6 +18,13 @@ router.get("/", getAllBooks);
 
 // single book endpoint
 router.get("/:id", getSingleBook);
+
+// findBookbyTitle endpoint
+router.get("/findBookbyTitle/:title", findBookbyTitle);
+// findBookbyCategory endpoint
+router.get("/findBookbyCategory/:category", findBookbyCategory);
+// searchBooks endpoint
+router.post("/searchBook", searchBook);
 
 // update a book endpoint
 router.put("/edit/:id", verifyAdminToken, UpdateBook);

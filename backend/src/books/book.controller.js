@@ -79,10 +79,75 @@ const deleteABook = async (req, res) => {
     }
 };
 
+const findBookbyTitle = async (req, res) => {
+    try {
+        const {title} = req.params;
+        const books =  await Book.find({title}).sort({createdAt: -1});
+        if(!books){
+            res.status(404).send({message: "Book not Found!"})
+            console.log("Book not found");
+        }
+        
+        res.status(200).send(books)
+        
+    } catch (error) {
+        console.error("Error fetching book", error);
+        res.status(500).send({message: "Failed to fetch book"})
+    }
+
+}
+
+const findBookbyCategory = async (req, res) => {
+    try {
+        const {category} = req.params;
+        const books =  await Book.find({category}).sort({createdAt: -1});
+        if(!books){
+           // res.status(404).send({message: "Book not Found!"})
+            console.log("Book not found");
+        }
+        res.status(200).send(books)
+        
+    } catch (error) {
+        console.error("Error fetching book by category", error);
+       // res.status(500).send({message: "Failed to fetch book"})
+    }
+
+}
+
+const  searchBook= async (req, res) => {
+    
+    const {query} = req.body;
+
+    try {
+                // Search query using $or
+         const searchTerm = {
+            $or: [
+                { title: { $regex: query, $options: "i" } }, // Case-insensitive search
+                { category: { $regex: query, $options: "i" } },
+                { description: { $regex: query, $options: "i" } }
+            ]
+        };
+
+        const books = await Book.find(searchTerm).sort({createdAt: -1});
+        console.log("Books found:", books);
+        if(!books){
+            res.status(404).send({message: "Book not Found!"})
+             console.log("Book not found");
+         }
+         res.status(200).send(books)
+    } catch (error) {
+        console.error("Error searching for books:", error);
+        res.status(500).send({message: "Book not Found!"})
+    } 
+} 
+
 module.exports = {
     postABook,
     getAllBooks,
     getSingleBook,
     UpdateBook,
-    deleteABook
+    deleteABook,
+    findBookbyTitle,
+    findBookbyCategory,
+    searchBook
 }
